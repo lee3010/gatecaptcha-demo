@@ -83,7 +83,7 @@
     top: 0; left: 0; bottom: 0;
     width: 0;
     background: var(--track-fill);
-    border-radius: 22px 0 0 22px;
+    border-radius: 22px;
   }
   .track .fill.failure { background: var(--failure); }
   .track .hint {
@@ -98,10 +98,10 @@
   }
   .track .handle {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 40px;
-    height: 40px;
+    top: 0;
+    left: 0;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
@@ -209,7 +209,7 @@
       el.pieceImg.style.top = (data.pieceY * renderScale) + 'px';
       el.pieceImg.style.width = (data.pieceWidth * renderScale) + 'px';
       el.pieceImg.style.height = (data.pieceHeight * renderScale) + 'px';
-      state.maxOffset = el.track.clientWidth - el.handle.clientWidth - 4;
+      state.maxOffset = el.track.clientWidth - el.handle.clientWidth;
       setStatus('Drag the handle until the piece fits.');
     } catch (e) {
       setStatus('Failed to load challenge: ' + e.message, true);
@@ -247,7 +247,7 @@
 
     const trackDx = Math.max(0, Math.min(dx / maxPiece * state.maxOffset, state.maxOffset));
     el.handle.style.transform = 'translateX(' + trackDx + 'px)';
-    el.fill.style.width = (trackDx + 2 + el.handle.clientWidth) + 'px';
+    el.fill.style.width = (trackDx + el.handle.clientWidth) + 'px';
     state.trail.push({ x: state.offsetX, t: performance.now() - state.startedAt });
   }
 
