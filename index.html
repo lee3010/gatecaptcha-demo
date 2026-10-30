@@ -267,9 +267,9 @@
         body: JSON.stringify({ offsetX: state.offsetX, dragTrail: state.trail }),
       });
       if (res.success) {
-        el.banner.textContent = 'Verified' + (res.captchaToken ? ' — token issued' : '');
+        el.banner.textContent = 'Verified';
         el.banner.classList.add('show', 'success');
-        setStatus('Success. A real single-use token was issued server-side.');
+        setStatus('Nicely done.');
         setTimeout(loadChallenge, 1600);
       } else {
         el.fill.classList.add('failure');
