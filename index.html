@@ -70,23 +70,27 @@
   .banner.show { transform: translateY(0); }
   .banner.success { background: var(--success); }
   .banner.failure { background: var(--failure); }
-  .track {
+  .track-wrap {
     position: relative;
     margin-top: 14px;
     height: 44px;
+  }
+  .track-clip {
+    position: absolute;
+    inset: 0;
     border-radius: 22px;
     background: var(--track-bg);
     overflow: hidden;
   }
-  .track .fill {
+  .track-clip .fill {
     position: absolute;
     top: 0; left: 0; bottom: 0;
     width: 0;
     background: var(--track-fill);
     border-radius: 22px;
   }
-  .track .fill.failure { background: var(--failure); }
-  .track .hint {
+  .track-clip .fill.failure { background: var(--failure); }
+  .track-clip .hint {
     position: absolute;
     inset: 0;
     display: flex;
@@ -96,7 +100,7 @@
     font-size: 13px;
     pointer-events: none;
   }
-  .track .handle {
+  .track-wrap .handle {
     position: absolute;
     top: 0;
     left: 0;
@@ -111,8 +115,8 @@
     cursor: grab;
     touch-action: none;
   }
-  .track .handle:active { cursor: grabbing; }
-  .track .handle svg { width: 18px; height: 18px; }
+  .track-wrap .handle:active { cursor: grabbing; }
+  .track-wrap .handle svg { width: 18px; height: 18px; }
   .status { margin-top: 12px; font-size: 12px; color: var(--muted); min-height: 16px; }
   .status.err { color: var(--failure); }
   footer { margin-top: 20px; font-size: 11px; color: var(--muted); text-align: center; }
@@ -130,9 +134,11 @@
       <div class="banner" id="banner"></div>
     </div>
 
-    <div class="track" id="track">
-      <div class="fill" id="fill"></div>
-      <div class="hint" id="hint">Drag to verify</div>
+    <div class="track-wrap" id="track">
+      <div class="track-clip">
+        <div class="fill" id="fill"></div>
+        <div class="hint" id="hint">Drag to verify</div>
+      </div>
       <div class="handle" id="handle">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9 6l6 6-6 6" stroke="#374151" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
