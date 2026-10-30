@@ -240,7 +240,7 @@
     setStatus('Loading challenge…');
     resetDrag();
     try {
-      const data = await api('/v1/challenge', { method: 'POST' });
+      const data = await api('/v1/challenge', { method: 'POST', body: '{}' });
       state.challenge = data;
       el.bgImg.src = 'data:image/png;base64,' + data.backgroundImageBase64;
       el.pieceImg.src = 'data:image/png;base64,' + data.pieceImageBase64;
