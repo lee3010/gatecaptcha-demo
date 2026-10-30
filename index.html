@@ -83,7 +83,7 @@
     top: 0; left: 0; bottom: 0;
     width: 0;
     background: var(--track-fill);
-    border-radius: 22px;
+    border-radius: 22px 0 0 22px;
   }
   .track .fill.failure { background: var(--failure); }
   .track .hint {
@@ -202,9 +202,13 @@
       state.challenge = data;
       el.bgImg.src = 'data:image/png;base64,' + data.backgroundImageBase64;
       el.pieceImg.src = 'data:image/png;base64,' + data.pieceImageBase64;
-      el.pieceImg.style.top = data.pieceY + 'px';
-      el.pieceImg.style.width = data.pieceWidth + 'px';
       el.puzzle.style.aspectRatio = data.canvasWidth + ' / ' + data.canvasHeight;
+      // The background is stretched to fill the card (CSS width 100%), so the
+      // piece has to be scaled by the same factor or it won't match the notch size.
+      const renderScale = el.puzzle.clientWidth / data.canvasWidth;
+      el.pieceImg.style.top = (data.pieceY * renderScale) + 'px';
+      el.pieceImg.style.width = (data.pieceWidth * renderScale) + 'px';
+      el.pieceImg.style.height = (data.pieceHeight * renderScale) + 'px';
       state.maxOffset = el.track.clientWidth - el.handle.clientWidth - 4;
       setStatus('Drag the handle until the piece fits.');
     } catch (e) {
@@ -243,7 +247,7 @@
 
     const trackDx = Math.max(0, Math.min(dx / maxPiece * state.maxOffset, state.maxOffset));
     el.handle.style.transform = 'translateX(' + trackDx + 'px)';
-    el.fill.style.width = (trackDx + el.handle.clientWidth / 2) + 'px';
+    el.fill.style.width = (trackDx + 2 + el.handle.clientWidth) + 'px';
     state.trail.push({ x: state.offsetX, t: performance.now() - state.startedAt });
   }
 
