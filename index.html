@@ -146,7 +146,7 @@
     <h1>GateCaptcha</h1>
     <p class="sub">Slide the piece into place. This hits the real API — nothing here is faked.</p>
 
-    <div class="config">
+    <div class="config" id="config" hidden>
       <input id="baseUrl" placeholder="API base URL, e.g. https://gapi.oppay88.com" />
       <input id="captchaId" placeholder="X-Captcha-Id (demo)" style="max-width:140px" />
       <button id="save">Use</button>
@@ -170,15 +170,15 @@
 
     <p class="status" id="status">Loading challenge…</p>
 
-    <footer>GateCaptcha — self-hosted puzzle captcha. <a href="https://github.com" target="_blank" rel="noopener">Source on request</a>.</footer>
+    <footer>GateCaptcha — self-hosted puzzle captcha. <a href="https://github.com" target="_blank" rel="noopener">Source on request</a>. <a href="#" id="toggleConfig">Point at a different API →</a></footer>
   </div>
 
 <script>
 (function () {
   const qs = new URLSearchParams(location.search);
   const state = {
-    baseUrl: localStorage.getItem('gc_baseUrl') || qs.get('baseUrl') || 'https://gapi.oppay88.com',
-    captchaId: localStorage.getItem('gc_captchaId') || qs.get('captchaId') || '',
+    baseUrl: qs.get('baseUrl') || localStorage.getItem('gc_baseUrl') || 'https://gapi.oppay88.com',
+    captchaId: qs.get('captchaId') || localStorage.getItem('gc_captchaId') || '3b18936e5d56',
     challenge: null,
     dragging: false,
     startX: 0,
@@ -190,6 +190,8 @@
   };
 
   const el = {
+    config: document.getElementById('config'),
+    toggleConfig: document.getElementById('toggleConfig'),
     baseUrl: document.getElementById('baseUrl'),
     captchaId: document.getElementById('captchaId'),
     save: document.getElementById('save'),
@@ -206,6 +208,11 @@
 
   el.baseUrl.value = state.baseUrl;
   el.captchaId.value = state.captchaId;
+
+  el.toggleConfig.addEventListener('click', (e) => {
+    e.preventDefault();
+    el.config.hidden = !el.config.hidden;
+  });
 
   el.save.addEventListener('click', () => {
     state.baseUrl = el.baseUrl.value.trim().replace(/\/$/, '');
